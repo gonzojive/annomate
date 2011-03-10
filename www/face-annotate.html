@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:svg="http://www.w3.org/2000/svg"
+      xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <head>
+    <title>Conforming XHTML 1.0 Strict Template</title>
+    <script type="text/javascript" src="js/jquery-1.4.4.js"></script>
+    <script type="text/javascript" src="js/jquery.svg.js"></script>
+    <script type="text/javascript" src="js/jquery-ui-1.8.7.custom.js"></script>
+    <script type="text/javascript" src="svg-annotate.js"></script>
+    <link type="text/css" rel="stylesheet" href="gather.css" />
+  </head>
+
+  <body>
+    <form style="float: left; width: 149px;">
+      <input type="button" value="Mouth" onclick="annotateRegion('mouth');" /> <br/>
+      <input type="button" value="Left Eye" onclick="annotateRegion('left-eye');" /> <br/>
+      <input type="button" value="Right Eye" onclick="annotateRegion('right-eye');" /> <br/>
+    </form>
+    <div id="cont" style="margin-left: 150px; height: 600px; cursor: crosshair;">
+    </div>
+
+  </body>
+</html>

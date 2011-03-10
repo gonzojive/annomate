@@ -1,0 +1,42 @@
+(in-package :face-annotate-ps)
+
+(defvar *main-svg* nil)
+
+(defmacro defwidget (str-name default-options
+                     &body prototype-methods)
+  (with-ps-gensyms (widget-obj)
+    `(let ((,widget-obj (create :options ,default-options)))
+       ,@(loop :for method-spec :in prototype-methods
+               :collect (destructuring-bind (name lambda-list &body body) method-spec
+                          `(setf (@ ,widget-obj ',name)
+                                 (lambda ,lambda-list ,@body))))
+       (funcall (@ $ "widget") ,str-name ,widget-obj))))
+
+(defmacro @call (chain &rest args)
+  `(funcall (@ ,@chain) ,@args))
+
+
+;;; See http://docs.jquery.com/UI_Developer_Guide#The_widget_factory
+;;; for info on how widgets work
+(macrolet ((data (&rest args)
+             `(@call (this 'element 'data) ,@args)))
+  (defwidget "ui.svannotate" (create)
+    ("destroy" ()
+               (funcall (@ console 'log) "destroyed it!"))
+    ("_image"
+     (src)
+     (methcall 'log console "drawing image in %o: %o" (data "svg") src)
+     (methcall 'image (data "svg")
+               0 0 "100%" "100%" src
+               (create 'preserve-aspect-ratio 'x-min-y-min))
+     (methcall 'log console "drew image"))
+    ("_create"
+     ()
+     (let ((svg  (methcall 'svg (@ this 'element))))
+       (data "svg" svg)
+       (methcall 'log console "hello?")
+       (methcall '_image this "content/example.jpg")))))
+
+
+($ (lambda ()
+     (methcall 'svannotate ($ "#cont"))))
